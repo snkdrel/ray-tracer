@@ -63,6 +63,10 @@ Tuple vector(float x, float y, float z) {
     return {x, y, z, 0.0};
 }
 
+Tuple color(float x, float y, float z) {
+    return {x, y, z, 0.0};
+}
+
 float Tuple::magnitude() const {
     return std::sqrt(x * x + y * y + z * z + w * w);
 }
@@ -82,4 +86,8 @@ Tuple cross(const Tuple& a, const Tuple& b) {
     return vector(  a.y * b.z - a.z * b.y,
                     a.z * b.x - a.x * b.z,
                     a.x * b.y - a.y * b.x );
+}
+
+Tuple hadamard_product(const Tuple& c1, const Tuple& c2) {
+    return color(c1.x * c2.x, c1.y * c2.y, c1.z * c2.z);
 }

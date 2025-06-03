@@ -41,10 +41,14 @@ Tuple point(float x, float y, float z);
 
 Tuple vector(float x, float y, float z);
 
+Tuple color(float x, float y, float z);
+
 float dot(const Tuple& a, const Tuple& b);
 
 Tuple cross(const Tuple& a, const Tuple& b);
 
 Tuple normalize(const Tuple& t);
+
+Tuple hadamard_product(const Tuple& c1, const Tuple& c2);
 
 #endif

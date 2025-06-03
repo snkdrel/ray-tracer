@@ -143,4 +143,30 @@ TEST_CASE ("Distinguish between points and vectors", "[tuple]") {
         REQUIRE(cross(a, b) == expected);
         REQUIRE(cross(b, a) == expected2);
     }
+
+    SECTION("Colors are (red, green, blue) tuples") {
+        Tuple c = color(-0.5, 0.4, 1.7);
+        REQUIRE(equal(c.x, -0.5));
+        REQUIRE(equal(c.y, 0.4));
+        REQUIRE(equal(c.z, 1.7));
+    }
+
+    SECTION("Operations between colors") {
+        Tuple c1 = color(0.9, 0.6, 0.75);
+        Tuple c2 = color(0.7, 0.1, 0.25);
+        Tuple expected = color(1.6, 0.7, 1.0);
+        REQUIRE(c1 + c2 == expected);
+
+        Tuple expected2 = color(0.2, 0.5, 0.5);
+        REQUIRE(c1 - c2 == expected2);
+
+        Tuple c3 = color(0.2, 0.3, 0.4);
+        Tuple expected3 = color(0.4, 0.6, 0.8);
+        REQUIRE(c3 * 2 == expected3);
+
+        Tuple c4 = color(1, 0.2, 0.4);
+        Tuple c5 = color(0.9, 1, 0.1);
+        Tuple expected4 = color(0.9, 0.2, 0.04);
+        REQUIRE(hadamard_product(c4, c5) == expected4);
+    }
 }
