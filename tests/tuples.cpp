@@ -1,96 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include <cmath>
-
-struct Tuple {
-    float x;
-    float y;
-    float z;
-    float w;
-
-    bool isPoint() {
-        return w;
-    }
-
-    bool isVector() {
-        return !isPoint();
-    }
-
-    Tuple operator-() const;
-};
-
-bool equal (float a, float b) {
-    if (abs(a - b) < 0.00001) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool operator== (const Tuple& t1, const Tuple& t2) {
-    return equal(t1.x, t2.x) && equal(t1.y, t2.y) 
-        && equal(t1.z, t2.z) && equal(t1.w, t2.w);
-}
-
-bool operator!= (const Tuple& t1, const Tuple& t2) {
-    return !equal(t1.x, t2.x) || !equal(t1.y, t2.y) 
-        || !equal(t1.z, t2.z) || !equal(t1.w, t2.w);
-}
-
-// is it the user's responsibility to guarantee not to add two points?
-Tuple operator+ (const Tuple& t1, const Tuple& t2) {
-    return {t1.x + t2.x, t1.y + t2.y, t1.z + t2.z, t1.w + t2.w};
-}
-
-// Should not subtract point from vector
-Tuple operator- (const Tuple& t1, const Tuple& t2) {
-    return {t1.x - t2.x, t1.y - t2.y, t1.z - t2.z, t1.w - t2.w};
-}
-
-Tuple Tuple::operator- () const {
-    return {-x, -y, -z, -w};
-}
-
-Tuple operator* (const Tuple& t, const float s) {
-    return {t.x * s, t.y * s, t.z * s, t.w * s};
-}
-
-Tuple operator* (const float s, const Tuple& t) {
-    return {t.x * s, t.y * s, t.z * s, t.w * s};
-}
-
-// check for s == 0
-Tuple operator/ (const Tuple& t, const float s) {
-    return {t.x / s, t.y / s, t.z / s, t.w / s};
-}
-
-Tuple point(float x, float y, float z) {
-    return {x, y, z, 1.0};
-}
-
-Tuple vector(float x, float y, float z) {
-    return {x, y, z, 0.0};
-}
-
-float magnitude(const Tuple& t) {
-    return std::sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w);
-}
-
-// maybe modify tuple instead of returning a new one?
-// check if magnitude(t) != 0?
-Tuple normalize(const Tuple& t) {
-    float m = magnitude(t);
-    return {t.x / m, t.y / m, t.z / m, t.w / m};
-}
-
-float dot(const Tuple& a, const Tuple& b) {
-    return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-}
-
-Tuple cross(const Tuple& a, const Tuple& b) {
-    return vector(  a.y * b.z - a.z * b.y,
-                    a.z * b.x - a.x * b.z,
-                    a.x * b.y - a.y * b.x );
-}
+#include "../src/tuples.h"
 
 TEST_CASE ("Distinguish between points and vectors", "[tuple]") {
     
@@ -192,19 +101,19 @@ TEST_CASE ("Distinguish between points and vectors", "[tuple]") {
 
     SECTION( "Computing the magnitude of a vector" ) {
         Tuple v1 = vector(1, 0, 0);
-        REQUIRE(magnitude(v1) == 1);
+        REQUIRE(v1.magnitude() == 1);
 
         Tuple v2 = vector(0, 1, 0);
-        REQUIRE(magnitude(v2) == 1);
+        REQUIRE(v2.magnitude() == 1);
 
         Tuple v3 = vector(0, 0, 1);
-        REQUIRE(magnitude(v3) == 1);
+        REQUIRE(v3.magnitude() == 1);
 
         Tuple v4 = vector(1, 2, 3);
-        REQUIRE(equal(magnitude(v4), std::sqrt(14)));
+        REQUIRE(equal(v4.magnitude(), std::sqrt(14)));
 
         Tuple v5 = vector(-1, -2, -3);
-        REQUIRE(equal(magnitude(v5), std::sqrt(14)));
+        REQUIRE(equal(v5.magnitude(), std::sqrt(14)));
     }
 
     SECTION("Normalizing vectors") {
@@ -217,7 +126,7 @@ TEST_CASE ("Distinguish between points and vectors", "[tuple]") {
         REQUIRE(normalize(v2) == expected2);
 
         Tuple v3 = vector(1, 2, 3);
-        REQUIRE( equal(magnitude(normalize(v3)), 1) );
+        REQUIRE( equal(normalize(v3).magnitude(), 1) );
     }
 
     SECTION("The dot product of two tuples") {
