@@ -11,10 +11,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 add_library(tuples src/tuples.cpp)
+add_library(canvas src/canvas.cpp)
 
-add_executable(tests tests/tuples.cpp)
+add_executable(tests tests/tests.cpp)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(tests PUBLIC tuples)
+target_link_libraries(tests PUBLIC canvas)
 
 project(ray-tracer)
 

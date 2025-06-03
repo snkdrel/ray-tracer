@@ -1,5 +1,25 @@
 #include <catch2/catch_test_macros.hpp>
 #include "../src/tuples.h"
+#include "../src/canvas.h"
+
+TEST_CASE("Canvas creation", "[canvas]") {
+    Canvas c = Canvas(10, 20);
+    REQUIRE(c.width == 10);
+    REQUIRE(c.height == 20);
+    
+    Tuple black = color(0, 0, 0);
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 20; j++) {
+            CHECK(c.pixel_at(i, j) == black);
+        }
+    }
+
+    SECTION("Writing pixels to a canvas") {
+        Tuple red = color(1, 0, 0);
+        c.write_pixel(2, 3, red);
+        REQUIRE(c.pixel_at(2, 3) == red);
+    }
+}
 
 TEST_CASE ("Distinguish between points and vectors", "[tuple]") {
     
