@@ -21,6 +21,49 @@ TEST_CASE("Canvas creation", "[canvas]") {
     }
 }
 
+TEST_CASE("Constructing PPM data", "[canvas]") {
+    Canvas c = Canvas(5, 3);
+
+    SECTION("Constructing the PPM header") {
+        std::string ppm = c.to_ppm();
+        REQUIRE(ppm.rfind("P3\n5 3\n255\n", 0) == 0);
+    }
+
+    SECTION("Constructing the PPM pixel data") {
+        Tuple c1 = color(1.5, 0, 0);
+        Tuple c2 = color(0, 0.5, 0);
+        Tuple c3 = color(-0.5, 0, 1);
+
+        c.write_pixel(0, 0, c1);
+        c.write_pixel(2, 1, c2);
+        c.write_pixel(4, 2, c3);
+
+        std::string ppm = c.to_ppm();
+        std::string s = "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
+                        "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n"
+                        "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n";
+        REQUIRE(ppm.compare(11, 96, s) == 0);
+    }
+
+    SECTION("Splitting long lines in PPM files") {
+        Tuple c1 = color(1, 0.8, 0.6);
+        Canvas canvas = Canvas(10, 2, c1);
+        std::string ppm = canvas.to_ppm();
+        std::string s = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
+                        153 255 204 153 255 204 153 255 204 153 255 204 153\n\
+                        255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
+                        153 255 204 153 255 204 153 255 204 153 255 204 153\n";
+        REQUIRE(ppm.compare(11, 243, s));
+    }
+
+    SECTION("PPM files are terminated by a newline character") {
+        Canvas canvas = Canvas(5, 3);
+        std::string ppm = canvas.to_ppm();
+        REQUIRE(ppm.find("\n", ppm.length()-1));
+    }
+    
+}
+
 TEST_CASE ("Distinguish between points and vectors", "[tuple]") {
     
     SECTION("A tuple with w=1.0 is a point") {
