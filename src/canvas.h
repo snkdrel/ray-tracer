@@ -23,6 +23,9 @@ class Canvas {
     Tuple pixel_at(int x, int y);
 
     std::string to_ppm();
+
+    private:
+    void limitString(std::string& row, std::string& out);
 };
 
 #endif

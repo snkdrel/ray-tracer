@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include "../src/tuples.h"
 #include "../src/canvas.h"
+#include <iostream>
 
 TEST_CASE("Canvas creation", "[canvas]") {
     Canvas c = Canvas(10, 20);
@@ -39,21 +40,23 @@ TEST_CASE("Constructing PPM data", "[canvas]") {
         c.write_pixel(4, 2, c3);
 
         std::string ppm = c.to_ppm();
-        std::string s = "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
+        std::string s = "P3\n5 3\n255\n"
+                        "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
                         "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n"
                         "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n";
-        REQUIRE(ppm.compare(11, 96, s) == 0);
+        REQUIRE(ppm == s);
     }
 
     SECTION("Splitting long lines in PPM files") {
         Tuple c1 = color(1, 0.8, 0.6);
         Canvas canvas = Canvas(10, 2, c1);
         std::string ppm = canvas.to_ppm();
-        std::string s = "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
-                        153 255 204 153 255 204 153 255 204 153 255 204 153\n\
-                        255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n\
-                        153 255 204 153 255 204 153 255 204 153 255 204 153\n";
-        REQUIRE(ppm.compare(11, 243, s));
+        std::string s = "P3\n10 2\n255\n"
+                        "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n"
+                        "153 255 204 153 255 204 153 255 204 153 255 204 153\n"
+                        "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n"
+                        "153 255 204 153 255 204 153 255 204 153 255 204 153\n";
+        REQUIRE(ppm == s);
     }
 
     SECTION("PPM files are terminated by a newline character") {
