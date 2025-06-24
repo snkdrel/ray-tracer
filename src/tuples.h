@@ -1,7 +1,7 @@
 #ifndef TUPLES_H
 #define TUPLES_H
 
-#include "cmath"
+#include "tools.h"
 
 struct Tuple {
     float x;
@@ -17,8 +17,6 @@ struct Tuple {
     
     float magnitude() const;
 };
-
-bool equal (float a, float b);
 
 bool operator== (const Tuple& t1, const Tuple& t2);
 

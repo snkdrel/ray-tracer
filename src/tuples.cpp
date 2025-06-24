@@ -10,14 +10,6 @@ bool Tuple::isVector() {
     return false;
 }
 
-bool equal (float a, float b) {
-    if (abs(a - b) < 0.00001) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 bool operator== (const Tuple& t1, const Tuple& t2) {
     return equal(t1.x, t2.x) && equal(t1.y, t2.y) 
         && equal(t1.z, t2.z) && equal(t1.w, t2.w);

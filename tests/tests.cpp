@@ -1,7 +1,57 @@
 #include <catch2/catch_test_macros.hpp>
+#include "../src/tools.h"
 #include "../src/tuples.h"
 #include "../src/canvas.h"
+#include "../src/matrices.h"
 #include <iostream>
+
+TEST_CASE("Matrices operations", "[matrices]") {
+    SECTION("Constructing and inspecting matrices") {
+        Matrix m = {{1,2,3,4},
+                    {5.5, 6.5, 7.5, 8.5},
+                    {9, 10, 11, 12},
+                    {13.5, 14.5, 15.5, 16.5}};
+        REQUIRE(m[0][0] == 1);
+        REQUIRE(m[0][3] == 4);
+        REQUIRE(m[1][0] == 5.5);
+        REQUIRE(m[1][2] == 7.5);
+        REQUIRE(m[2][2] == 11);
+        REQUIRE(m[3][0] == 13.5);
+        REQUIRE(m[3][2] == 15.5);
+
+        Matrix m2 = {{-3, 5},
+                    {1, -2}};
+        REQUIRE(m2[0][0] == -3);
+        REQUIRE(m2[0][1] == 5);
+        REQUIRE(m2[1][0] == 1);
+        REQUIRE(m2[1][1] == -2);
+
+        Matrix m3 = { {-3, 5, 0},
+                      {1, -2, -7},
+                      {0, 1, 1}};
+        REQUIRE(m3[0][0] == -3);
+        REQUIRE(m3[1][1] == -2);
+        REQUIRE(m3[2][2] == 1);
+    }
+    
+    SECTION("Matrix equality with identical matrices") {
+        Matrix a = { {1 , 2 , 3 , 4 },
+                    { 5 , 6 , 7 , 8 },
+                    { 9 , 8 , 7 , 6 },
+                    { 5 , 4 , 3 , 2 } };
+        Matrix b = { {1 , 2 , 3 , 4 },
+                    { 5 , 6 , 7 , 8 },
+                    { 9 , 8 , 7 , 6 },
+                    { 5 , 4 , 3 , 2 } };
+        REQUIRE (a == b);
+
+        Matrix c = { {2 , 3,  4 , 5},
+                    {6 , 7 , 8 , 9},
+                    {8 , 7 , 6 , 5},
+                    {4 , 3 , 2 , 1} };
+        REQUIRE(a != c);
+    }
+}
 
 TEST_CASE("Canvas creation", "[canvas]") {
     Canvas c = Canvas(10, 20);
