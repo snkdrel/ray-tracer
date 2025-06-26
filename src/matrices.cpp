@@ -66,3 +66,18 @@ Tuple operator*(const Matrix& m, const Tuple& t) {
     
     return res;
 }
+
+Matrix transpose(const Matrix& m) {
+    Matrix res = m;
+
+    for (int i = 0; i < res.size(); i++) {
+        for (int j = i; j < res[0].size(); j++) {
+            std::swap( res[i][j], res[j][i] );
+        }
+    }
+    return res;
+}
+
+float determinant(const Matrix& m) {
+    return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+}

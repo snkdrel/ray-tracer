@@ -77,6 +77,57 @@ TEST_CASE("Matrices operations", "[matrices]") {
         Tuple res = {18, 24, 33, 1};
         REQUIRE( a * b == res);
     }
+
+    SECTION("Multiplying a matrix by the identity matrix") {
+        Matrix a = {{ 0 , 1 , 2 , 4 },
+                    { 1 , 2 , 4 , 8 },
+                    { 2 , 4 , 8 , 16 },
+                    { 4 , 8 , 16 , 32} };
+        REQUIRE( a * matrices::identity == a );
+        
+        Tuple t {1, 2, 3, 4};
+        REQUIRE( matrices::identity * t == t );
+    }
+
+    SECTION("Transposing a matrix") {
+        Matrix a =  {{ 0 , 9 , 3 , 0 },
+                    { 9 , 8 , 0 , 8 },
+                    { 1 , 8 , 5 , 3 },
+                    { 0 , 0 , 5 , 8} };
+
+        Matrix at =  {{ 0 , 9 , 1 , 0 },
+                    { 9 , 8 , 8 , 0 },
+                    { 3 , 0 , 5 , 5 },
+                    { 0 , 8 , 3 , 8} };
+        
+        REQUIRE( transpose(a) == at );
+
+        REQUIRE( matrices::identity == transpose(matrices::identity) );
+    }
+}
+
+TEST_CASE("Inverting matrices", "[matrices]") {
+    SECTION("Calculating the determinant of a 2x2 matrix") {
+        Matrix A = {{1, 5}, {-3, 2}};
+        REQUIRE(determinant(A) == 17);
+    }
+
+    SECTION("Extracting submatrices from matrices") {
+        Matrix A = {{1 , 5 , 0 },
+                    { -3 , 2 , 7 },
+                    { 0 , 6 , -3}};
+        Matrix subA = {{-3, 2}, {0, 6}};
+        REQUIRE( submatrix(A, 0, 2) == subA);
+
+        Matrix B =  {{ -6 , 1 , 1 , 6 },
+                    { -8 , 5 , 8 , 6 },
+                    { -1 , 0 , 8 , 2 },
+                    { -7 , 1 , -1 , 1} };
+        Matrix subB = {{ -6 , 1 , 6 },
+                       { -8 , 8 , 6 },
+                       { -7 , -1 , 1} };
+        REQUIRE(submatrix(B, 2, 1) == subB);
+    }
 }
 
 TEST_CASE("Canvas creation", "[canvas]") {
