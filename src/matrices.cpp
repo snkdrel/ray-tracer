@@ -81,3 +81,34 @@ Matrix transpose(const Matrix& m) {
 float determinant(const Matrix& m) {
     return m[0][0] * m[1][1] - m[0][1] * m[1][0];
 }
+
+Matrix submatrix(const Matrix& m, int row, int col) {
+    int n = m.size();
+    Matrix subm (n - 1, std::vector<float>(n - 1));
+
+    int isub = 0, jsub = 0;
+    for (int i = 0; i < n; i++) {
+        if (i == row) continue;
+        jsub = 0;
+        for (int j = 0; j < n; j++) {
+            if (j == col) continue;
+            subm[isub][jsub] = m[i][j];
+            jsub++;
+        }
+        isub++;
+    }
+
+    return subm;
+}
+
+float minor(const Matrix& m, int row, int col) {
+    return determinant(submatrix(m, row, col));
+}
+
+float cofactor(const Matrix& m, int row, int col) {
+    if ( (row + col) % 2 == 0 ) {
+        return minor(m, row, col);
+    } else {
+        return minor(m, row, col) * -1;
+    }
+}

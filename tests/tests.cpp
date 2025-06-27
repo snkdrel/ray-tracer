@@ -128,6 +128,29 @@ TEST_CASE("Inverting matrices", "[matrices]") {
                        { -7 , -1 , 1} };
         REQUIRE(submatrix(B, 2, 1) == subB);
     }
+
+    SECTION("Calculating a minor of a 3x3 matrix") {
+        Matrix A = {{ 3 , 5 , 0 },
+                    { 2 , -1 , -7 },
+                    { 6 , -1 , 5} };
+        Matrix B = submatrix(A, 1, 0);
+        REQUIRE(determinant(B) == 25);
+        REQUIRE( minor(A, 1, 0) == 25 );
+    }
+
+    SECTION("Calculating a cofactor of a 3x3 matrix") {
+        Matrix A = {{ 3 , 5 , 0 },
+                    { 2 , -1 , -7 },
+                    { 6 , -1 , 5} };
+        REQUIRE( minor(A, 0, 0) == -12);
+        REQUIRE( cofactor(A, 0, 0) == -12);
+        REQUIRE( minor(A, 1, 0) == 25 );
+        REQUIRE( cofactor(A, 1, 0) == -25);
+    }
+
+    SECTION("") {
+        
+    }
 }
 
 TEST_CASE("Canvas creation", "[canvas]") {

@@ -31,4 +31,10 @@ Matrix transpose(const Matrix& m);
 
 float determinant(const Matrix& m);
 
+Matrix submatrix(const Matrix& m, int row, int col);
+
+float minor(const Matrix& m, int row, int col);
+
+float cofactor(const Matrix& m, int row, int col);
+
 #endif
