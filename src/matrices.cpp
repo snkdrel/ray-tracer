@@ -79,7 +79,17 @@ Matrix transpose(const Matrix& m) {
 }
 
 float determinant(const Matrix& m) {
-    return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+    if ( m.size() == 2 ) {
+        return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+    } else {
+        float det = 0;
+
+        for (int j = 0; j < m.size(); j++) {
+            det += m[0][j] * cofactor(m, 0, j);
+        }
+
+        return det;
+    }
 }
 
 Matrix submatrix(const Matrix& m, int row, int col) {

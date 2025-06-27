@@ -148,8 +148,26 @@ TEST_CASE("Inverting matrices", "[matrices]") {
         REQUIRE( cofactor(A, 1, 0) == -25);
     }
 
-    SECTION("") {
-        
+    SECTION("Calculating the determinant of a 3x3 matrix") {
+        Matrix A = {{ 1 , 2 , 6 },
+                    { -5 , 8 , -4 },
+                    { 2 , 6 , 4} };
+        REQUIRE( cofactor(A, 0, 0) == 56 );
+        REQUIRE( cofactor(A, 0, 1) == 12 );
+        REQUIRE( cofactor(A, 0, 2) == -46 );
+        REQUIRE( determinant(A) == -196 );
+    }
+
+    SECTION("Calculating the determinant of a 4x4 matrix") {
+        Matrix A =  {{ -2 , -8 , 3 , 5 },
+                     { -3 , 1 , 7 , 3 },
+                     { 1 , 2 , -9 , 6 },
+                     { -6 , 7 , 7 , -9 } };
+        REQUIRE( cofactor(A, 0, 0) == 690 );
+        REQUIRE( cofactor(A, 0, 1) == 447 );
+        REQUIRE( cofactor(A, 0, 2) == 210 );
+        REQUIRE( cofactor(A, 0, 3) == 51 );
+        REQUIRE( determinant(A) == -4071 );
     }
 }
 
