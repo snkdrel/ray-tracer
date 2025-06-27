@@ -37,4 +37,8 @@ float minor(const Matrix& m, int row, int col);
 
 float cofactor(const Matrix& m, int row, int col);
 
+bool isInvertible(const Matrix& m);
+
+Matrix inverse(const Matrix& m);
+
 #endif

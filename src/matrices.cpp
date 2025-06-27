@@ -122,3 +122,11 @@ float cofactor(const Matrix& m, int row, int col) {
         return minor(m, row, col) * -1;
     }
 }
+
+bool isInvertible(const Matrix& m) {
+    return determinant(m) != 0;
+}
+
+Matrix inverse(const Matrix& m) {
+    
+}
