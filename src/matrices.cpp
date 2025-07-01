@@ -128,5 +128,16 @@ bool isInvertible(const Matrix& m) {
 }
 
 Matrix inverse(const Matrix& m) {
-    
+    // check if is invertible !!
+    // throw exception
+    int n = m.size();
+    Matrix m2 (n, std::vector<float> (n, 0));
+    float det = determinant(m);
+
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
+            m2[c][r] = cofactor(m, r, c) / det;
+        }
+    }
+    return m2;
 }
