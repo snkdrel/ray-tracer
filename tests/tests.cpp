@@ -3,7 +3,25 @@
 #include "../src/tuples.h"
 #include "../src/canvas.h"
 #include "../src/matrices.h"
+#include "../src/transformations.h"
 #include <iostream>
+
+TEST_CASE("Matrix transformations", "[transformations]") {
+    SECTION("Translation") {
+        // Multiplying by a translation matrix
+        Matrix transform = translation(5, -3, 2);
+        Tuple p = point(-3, 4, 5);
+        REQUIRE(transform * p == point(2, 1, 7));
+
+        // Multiplying by the inverse of a translation matrix
+        Matrix inv = inverse(transform);
+        REQUIRE(inv * p == point(-8, 7, 3));
+
+        // Translation does not affect vectors
+        Tuple v = vector(-3, 4, 5);
+        REQUIRE(transform * v == v);
+    }
+}
 
 TEST_CASE("Matrices operations", "[matrices]") {
     SECTION("Constructing and inspecting matrices") {
@@ -235,6 +253,13 @@ TEST_CASE("Inverting matrices", "[matrices]") {
                     { 6 , -2 , 0 , 5 } };
         Matrix C = A * B;
         REQUIRE (C * inverse(B) == A);
+
+        Matrix invI = inverse(matrices::identity);
+        REQUIRE (invI == matrices::identity);
+        
+        REQUIRE (A * inverse(A) == matrices::identity);
+        
+        REQUIRE (inverse(transpose(A)) == transpose(inverse(A)));
     }
 }
 
