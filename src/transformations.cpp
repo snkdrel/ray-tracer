@@ -19,3 +19,36 @@ Matrix scaling(float x, float y, float z) {
 
     return res;
 }
+
+Matrix rotation_x(float r) {
+    Matrix res = matrices::identity;
+
+    res[1][1] = std::cos(r);
+    res[1][2] = -std::sin(r);
+    res[2][1] = std::sin(r);
+    res[2][2] = std::cos(r);
+
+    return res;
+}
+
+Matrix rotation_y(float r) {
+    Matrix res = matrices::identity;
+
+    res[0][0] = std::cos(r);
+    res[0][2] = std::sin(r);
+    res[2][0] = -std::sin(r);
+    res[2][2] = std::cos(r);
+
+    return res;
+}
+
+Matrix rotation_z(float r) {
+    Matrix res = matrices::identity;
+
+    res[0][0] = std::cos(r);
+    res[0][1] = -std::sin(r);
+    res[1][0] = std::sin(r);
+    res[1][1] = std::cos(r);
+
+    return res;
+}

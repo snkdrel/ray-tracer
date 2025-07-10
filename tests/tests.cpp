@@ -41,6 +41,37 @@ TEST_CASE("Matrix transformations", "[transformations]") {
         Tuple p2 = point(2, 3, 4);
         REQUIRE(reflection * p2 == point(-2, 3, 4));
     }
+
+    SECTION("Rotating a point around the x axis") {
+        Tuple p = point(0, 1, 0);
+        Matrix half_quarter = rotation_x(M_PI / 4);
+        Matrix full_quarter = rotation_x(M_PI / 2);
+        REQUIRE(half_quarter * p == 
+                    point(0, std::sqrt(2) / 2, std::sqrt(2) / 2));
+        REQUIRE(full_quarter * p == point(0, 0, 1));
+
+        // The inverse of an x-rotation rotates in the opposite direction
+        Matrix inv = inverse(half_quarter);
+        REQUIRE(inv * p == point(0, std::sqrt(2) / 2, -std::sqrt(2) / 2));
+    }
+
+    SECTION("Rotating a point around the y axis") {
+        Tuple p = point(0, 0, 1);
+        Matrix half_quarter = rotation_y(M_PI / 4);
+        Matrix full_quarter = rotation_y(M_PI / 2);
+        REQUIRE(half_quarter * p == 
+                point(std::sqrt(2) / 2, 0, std::sqrt(2) / 2));
+        REQUIRE(full_quarter * p == point(1, 0, 0));
+    }
+
+    SECTION("Rotating a point around the z axis") {
+        Tuple p = point(0, 1, 0);
+        Matrix half_quarter = rotation_z(M_PI / 4);
+        Matrix full_quarter = rotation_z(M_PI / 2);
+        REQUIRE(half_quarter * p == 
+                point(-std::sqrt(2) / 2, std::sqrt(2) / 2, 0));
+        REQUIRE(full_quarter * p == point(-1, 0, 0));
+    }
 }
 
 TEST_CASE("Matrices operations", "[matrices]") {
