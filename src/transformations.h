@@ -5,4 +5,6 @@
 
 Matrix translation(float x, float y, float z);
 
+Matrix scaling(float x, float y, float z);
+
 #endif

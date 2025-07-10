@@ -9,3 +9,13 @@ Matrix translation(float x, float y, float z) {
 
     return res;
 }
+
+Matrix scaling(float x, float y, float z) {
+    Matrix res = matrices::identity;
+
+    res[0][0] = x;
+    res[1][1] = y;
+    res[2][2] = z;
+
+    return res;
+}

@@ -21,6 +21,26 @@ TEST_CASE("Matrix transformations", "[transformations]") {
         Tuple v = vector(-3, 4, 5);
         REQUIRE(transform * v == v);
     }
+
+    SECTION("Scaling") {
+        // A scaling matrix applied to a point
+        Matrix transform = scaling(2, 3, 4);
+        Tuple p = point(-4, 6, 8);
+        REQUIRE(transform * p == point(-8, 18, 32));
+
+        // A scaling matrix applied to a vector
+        Tuple v = vector(-4, 6, 8);
+        REQUIRE(transform * v == vector(-8, 18, 32));
+
+        // Multiplying by the inverse of a scaling matrix
+        Matrix inv = inverse(transform);
+        REQUIRE(inv * v == vector(-2, 2, 2));
+
+        // Reflection is scaling by a negative value
+        Matrix reflection = scaling(-1, 1, 1);
+        Tuple p2 = point(2, 3, 4);
+        REQUIRE(reflection * p2 == point(-2, 3, 4));
+    }
 }
 
 TEST_CASE("Matrices operations", "[matrices]") {
