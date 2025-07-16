@@ -52,3 +52,16 @@ Matrix rotation_z(float r) {
 
     return res;
 }
+
+Matrix shearing(float x_y, float x_z, float y_x, float y_z, float z_x, float z_y) {
+    Matrix res = matrices::identity;
+
+    res[0][1] = x_y;
+    res[0][2] = x_z;
+    res[1][0] = y_x;
+    res[1][2] = y_z;
+    res[2][0] = z_x;
+    res[2][1] = z_y;
+
+    return res;
+}

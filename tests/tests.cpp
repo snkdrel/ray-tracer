@@ -72,6 +72,52 @@ TEST_CASE("Matrix transformations", "[transformations]") {
                 point(-std::sqrt(2) / 2, std::sqrt(2) / 2, 0));
         REQUIRE(full_quarter * p == point(-1, 0, 0));
     }
+
+    SECTION("Shearing") {
+        // A shearing transformation moves x in proportion to y
+        Matrix transform = shearing(1, 0, 0, 0, 0, 0);
+        Tuple p = point(2, 3, 4);
+        REQUIRE(transform * p == point(5, 3, 4));
+
+        // A shearing transformation moves x in proportion to z
+        Matrix t2 = shearing(0, 1, 0, 0, 0, 0);
+        REQUIRE(t2 * p == point(6, 3, 4));
+
+        // A shearing transformation moves y in proportion to x
+        Matrix t3 = shearing(0, 0, 1, 0, 0, 0);
+        REQUIRE(t3 * p == point(2, 5, 4));
+
+        // A shearing transformation moves y in proportion to z
+        Matrix t4 = shearing(0, 0, 0, 1, 0, 0);
+        REQUIRE(t4 * p == point(2, 7, 4));
+
+        // A shearing transformation moves z in proportion to x
+        Matrix t5 = shearing(0, 0, 0, 0, 1, 0);
+        REQUIRE(t5 * p == point(2, 3, 6));
+
+        // A shearing transformation moves z in proportion to y
+        Matrix t6 = shearing(0, 0, 0, 0, 0, 1);
+        REQUIRE(t6 * p == point(2, 3, 7));
+    }
+
+    SECTION("Chaining Transformations") {
+        // Individual transformations are applied in sequence
+        Tuple p = point(1, 0, 1);
+        Matrix A = rotation_x(M_PI / 2);
+        Matrix B = scaling(5, 5, 5);
+        Matrix C = translation(10, 5, 7);
+
+        Tuple p2 = A * p;
+        CHECK(p2 == point(1, -1, 0));
+        Tuple p3 = B * p2;
+        CHECK(p3 == point(5, -5, 0));
+        Tuple p4 = C * p3;
+        CHECK(p4 == point(15, 0, 7));
+
+        // Chained transformations must be applied in reverse order
+        Matrix T = C * B * A;
+        REQUIRE(T * p == point(15, 0, 7));
+    }
 }
 
 TEST_CASE("Matrices operations", "[matrices]") {
